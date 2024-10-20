@@ -9,7 +9,7 @@ metadata:
     project: expense
     tier: web
 spec:
-  replicas: {{ .Values.deployment.replicas }}
+  replicas: { { .Values.deployment.replicas } }
   selector:
     matchLabels:
       component: frontend
@@ -24,20 +24,20 @@ spec:
         tier: web
     spec:
       containers:
-      - name: frontend
-        image: 315069654700.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:{{ .Values.deployment.imageVersion }}
-        volumeMounts:
-        - name: nginx-conf
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
-          readOnly: true
-        # envFrom:
-        # - configMapRef:
-        #     name: frontend
+        - name: frontend
+          image: 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:{{ .Values.deployment.imageVersion }}
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+          # envFrom:
+          # - configMapRef:
+          #     name: frontend
       volumes:
-      - name: nginx-conf
-        configMap:
-          name: frontend
-          items:
-          - key: nginx.conf
-            path: nginx.conf
+        - name: nginx-conf
+          configMap:
+            name: frontend
+            items:
+              - key: nginx.conf
+                path: nginx.conf
