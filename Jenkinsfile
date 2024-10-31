@@ -38,11 +38,11 @@ pipeline {
                 sh """
                     echo "hello"
 
-                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 3240372108.dkr.ecr.us-east-1.amazonaws.com
-                    docker build -t expense-frontend .
-                    docker tag expense-frontend:latest 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:latest
+                    aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
 
-                   docker push 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:latest
+                    docker build -t ${account_id}.dkr.ecr.${region}.amazonaws.com/expense-frontend:${appVersion} .
+
+                    docker push ${account_id}.dkr.ecr.${region}.amazonaws.com/expense-frontend:${appVersion}
                 """
             }
         }
