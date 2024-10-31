@@ -34,30 +34,30 @@ pipeline {
             }
         }
 
-        stage('Docker build'){
-            steps{
-                sh """
-                    echo "hello"
+        // stage('Docker build'){
+        //     steps{
+        //         sh """
+        //             echo "hello"
 
-                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 3240372108.dkr.ecr.us-east-1.amazonaws.com
-                    docker build -t expense-frontend .
-                    docker tag expense-frontend:latest 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:latest
+        //             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 3240372108.dkr.ecr.us-east-1.amazonaws.com
+        //             docker build -t expense-frontend .
+        //             docker tag expense-frontend:latest 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:latest
 
-                   docker push 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:latest
-                """
-            }
-        }
+        //            docker push 324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:latest
+        //         """
+        //     }
+        // }
 
-        stage('Deploy'){
-            steps{
-                sh """
-                    aws eks update-kubeconfig --region us-east-1 --name expense-dev
-                    cd helm
-                    sed -i 's/IMAGE_VERSION/${appVersion}/g' values.yaml
-                    helm install frontend .
-                """
-            }
-        }
+        // stage('Deploy'){
+        //     steps{
+        //         sh """
+        //             aws eks update-kubeconfig --region us-east-1 --name expense-dev
+        //             cd helm
+        //             sed -i 's/IMAGE_VERSION/${appVersion}/g' values.yaml
+        //             helm install frontend .
+        //         """
+        //     }
+        // }
 
 
         /* stage('Nexus Artifact Upload'){
