@@ -12,6 +12,7 @@ pipeline {
         nexusUrl = 'nexus.vigneshdev.online:8081'
         region = "us-east-1"
         account_id = "324037294108"
+        324037294108.dkr.ecr.us-east-1.amazonaws.com/expense-frontend
     }
     stages {
         stage('read the version'){
@@ -36,6 +37,8 @@ pipeline {
         stage('Docker build'){
             steps{
                 sh """
+                    aws sts get-caller-identity
+
                     aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
 
                     docker build -t ${account_id}.dkr.ecr.${region}.amazonaws.com/expense-frontend:${appVersion} .
